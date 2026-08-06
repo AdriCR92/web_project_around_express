@@ -12,7 +12,8 @@ const notFoundHandler: RequestHandler = (_req, res) => {
 const errorHandler: ErrorRequestHandler = (
   err,
   _req,
-  res
+  res,
+  _next
 ) => {
   console.error(err);
 

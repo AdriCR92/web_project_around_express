@@ -1,37 +1,17 @@
-import type { RequestHandler } from "express";
+import type { Request, Response } from "express";
 
-import fs from "node:fs/promises";
-import path from "node:path";
+import User from "../models/user.js";
 
-type User = {
-  _id: string;
-  name: string;
-  about: string;
-  avatar: string;
+const getUsers = async (_req: Request, res: Response) => {
+  const users = await User.find({});
+
+  res.send(users);
 };
 
-const usersPath = path.join(
-  import.meta.dirname,
-  "../../data/users.json"
-);
+const getUserById = async (req: Request, res: Response) => {
+  const { id } = req.params;
 
-const readUsers = async (): Promise<User[]> => {
-  const usersData = await fs.readFile(usersPath, "utf8");
-
-  return JSON.parse(usersData) as User[];
-};
-
-const getUsers: RequestHandler = async (_req, res) => {
-  const users = await readUsers();
-
-  res.json(users);
-};
-
-const getUserById: RequestHandler = async (req, res) => {
-  const { userId } = req.params;
-  const users = await readUsers();
-
-  const user = users.find((currentUser) => currentUser._id === userId);
+  const user = await User.findById(id);
 
   if (!user) {
     res.status(404).json({
@@ -43,4 +23,16 @@ const getUserById: RequestHandler = async (req, res) => {
   res.json(user);
 };
 
-export { getUsers, getUserById };
+const createUser = async (req: Request, res: Response) => {
+  const { name, about, avatar } = req.body;
+
+  const newUser = await User.create({
+    name,
+    about,
+    avatar,
+  });
+
+  res.status(201).send(newUser);
+};
+
+export { getUsers, getUserById, createUser };

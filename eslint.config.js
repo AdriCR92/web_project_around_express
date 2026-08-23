@@ -17,7 +17,13 @@ export default [
     },
     rules: {
       "no-underscore-dangle": ["error", { "allow": ["_id"] }],
-      "no-console": ["warn", { "allow": ["warn", "error"] }]
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
+      "@typescript-eslint/no-unused-vars": [
+  "warn",
+  {
+    argsIgnorePattern: "^_",
+  },
+],
     },
   }
 ];

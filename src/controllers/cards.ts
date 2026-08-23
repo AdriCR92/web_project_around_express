@@ -13,10 +13,7 @@ const createCard = async (req: Request, res: Response) => {
   const { name, link } = req.body;
 
   if (!req.user?._id) {
-    res.status(401).json({
-      message: "Unauthorized",
-    });
-    return;
+    throw Object.assign(new Error("Unauthorized"), { statusCode: 401 });
   }
 
   const newCard = await Card.create({
@@ -34,10 +31,7 @@ const deleteCard = async (req: Request, res: Response) => {
   const deletedCard = await Card.findByIdAndDelete(id);
 
   if (!deletedCard) {
-    res.status(404).json({
-      message: "Card ID not found",
-    });
-    return;
+    throw Object.assign(new Error("Card ID not found"), { statusCode: 404 });
   }
 
   res.send(deletedCard);

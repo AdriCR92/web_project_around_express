@@ -14,10 +14,7 @@ const getUserById = async (req: Request, res: Response) => {
   const user = await User.findById(id);
 
   if (!user) {
-    res.status(404).json({
-      message: "User ID not found",
-    });
-    return;
+    throw Object.assign(new Error("User ID not found"), { statusCode: 404 });
   }
 
   res.json(user);

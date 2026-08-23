@@ -1,24 +1,46 @@
-import type { RequestHandler } from "express";
+import type { Request, Response } from "express";
 
-import fs from "node:fs/promises";
-import path from "node:path";
+import mongoose from "mongoose";
+import Card from "../models/card.js";
 
+const getCards = async (_req: Request, res: Response) => {
+  const cards = await Card.find({});
 
-type Card = {
-  _id: string;
-  name: string;
-  link: string;
+  res.send(cards);
 };
 
-const cardsPath = path.join(
-  import.meta.dirname,
-  "../../data/cards.json"
-);
+const createCard = async (req: Request, res: Response) => {
+  const { name, link } = req.body;
 
-const getCards: RequestHandler = async (_req, res) => {
-  const cardsData = await fs.readFile(cardsPath, "utf8");
-  const cards = JSON.parse(cardsData) as Card[];
-  res.json(cards);
+  if (!req.user?._id) {
+    res.status(401).json({
+      message: "Unauthorized",
+    });
+    return;
+  }
+
+  const newCard = await Card.create({
+    name,
+    link,
+    owner: new mongoose.Types.ObjectId(req.user._id),
+  });
+
+  res.status(201).send(newCard);
 };
 
-export { getCards };
+const deleteCard = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const deletedCard = await Card.findByIdAndDelete(id);
+
+  if (!deletedCard) {
+    res.status(404).json({
+      message: "Card ID not found",
+    });
+    return;
+  }
+
+  res.send(deletedCard);
+};
+
+export { getCards, createCard, deleteCard };

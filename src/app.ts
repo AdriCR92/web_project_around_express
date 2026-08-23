@@ -23,6 +23,13 @@ mongoose.connect("mongodb://127.0.0.1:27017/aroundb")
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
+app.use((req, res, next) => {
+    req.user ={
+        _id: "6a8a55c9aa18e6db86ea31c5"    
+    };
+    next();
+});
+
 // Use routers for different routes
 app.use("/users", usersRouter);
 app.use("/cards", cardsRouter);

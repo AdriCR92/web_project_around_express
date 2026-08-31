@@ -1,27 +1,65 @@
-# Tripleten web_project_around_express
 # Around Express API
 
-Backend desarrollado con Express y TypeScript como parte del programa de Desarrollo Web de TripleTen.
+Backend desarrollado con **Node.js**, **Express**, **TypeScript** y **MongoDB** como parte del programa de Desarrollo Web de TripleTen.
 
 ## Descripción
 
-Esta aplicación implementa una API REST básica para el proyecto Around. Actualmente permite:
+Esta aplicación implementa una API REST para el proyecto Around, permitiendo administrar usuarios y tarjetas mediante MongoDB y Mongoose.
 
-- Obtener la lista de usuarios.
-- Obtener la lista de tarjetas.
-- Obtener un usuario por su ID.
-- Manejar errores 404 para recursos inexistentes.
-- Manejar errores 500 del servidor.
+## Funcionalidades
 
-Los datos se leen desde archivos JSON utilizando el módulo `node:fs/promises`.
+### Usuarios
+
+- Obtener todos los usuarios.
+- Obtener un usuario por ID.
+- Crear un usuario.
+- Obtener el usuario actual (`/users/me`).
+- Actualizar nombre y descripción.
+- Actualizar avatar.
+
+### Tarjetas
+
+- Obtener todas las tarjetas.
+- Crear una tarjeta.
+- Eliminar una tarjeta.
+- Dar "Like" a una tarjeta.
+- Quitar "Like" de una tarjeta.
+
+### Manejo de errores
+
+- Middleware centralizado para el manejo de errores.
+- Validación de ObjectId.
+- Validaciones mediante Mongoose.
+- Respuestas HTTP 400, 401, 404 y 500.
 
 ## Tecnologías
 
 - Node.js
 - Express
 - TypeScript
+- MongoDB
+- Mongoose
 - ESLint
 - EditorConfig
+
+## Endpoints principales
+
+### Usuarios
+
+- GET `/users`
+- GET `/users/:id`
+- POST `/users`
+- GET `/users/me`
+- PATCH `/users/me`
+- PATCH `/users/me/avatar`
+
+### Tarjetas
+
+- GET `/cards`
+- POST `/cards`
+- DELETE `/cards/:id`
+- PUT `/cards/:id/likes`
+- DELETE `/cards/:id/likes`
 
 ## Screenshots
 
@@ -29,10 +67,34 @@ Los datos se leen desde archivos JSON utilizando el módulo `node:fs/promises`.
 
 ![GET Users](./screenshots/get-users.png)
 
-### GET /users/:id (404)
+### GET /users/me
 
-![404 Error](./screenshots/user-not-found.png)
+![Current User](./screenshots/get-current-user.png)
 
-## Estado del proyecto
+### PATCH /users/me/avatar
 
-Proyecto en desarrollo. En futuros sprints se agregarán validaciones y conexión con una base de datos.
+![Update Avatar](./screenshots/update-avatar.png)
+
+### GET /cards
+
+![GET Cards](./screenshots/get-cards.png)
+
+### PUT /cards/:id/likes
+
+![Like Card](./screenshots/like-card.png)
+
+## Lo que aprendí
+
+Durante este proyecto aprendí a:
+
+- Construir una API REST con Express.
+- Modelar datos con MongoDB y Mongoose.
+- Implementar operaciones CRUD.
+- Relacionar documentos mediante ObjectId.
+- Manejar errores con un middleware centralizado.
+- Validar datos utilizando Mongoose.
+- Trabajar con TypeScript en un entorno backend.
+
+## Autor
+
+**Adriana Capriles**

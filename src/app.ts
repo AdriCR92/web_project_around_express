@@ -1,8 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 
-import { cardsRouter } from "./routes/cards.js";
-import { usersRouter } from "./routes/users.js";
+import { router } from "./routes/index.js";
 import {
     errorHandler,
     notFoundHandler,
@@ -31,8 +30,8 @@ app.use((req, res, next) => {
 });
 
 // Use routers for different routes
-app.use("/users", usersRouter);
-app.use("/cards", cardsRouter);
+app.use(router);
+app.use(router);
 
 // Error handling middleware
 app.use(notFoundHandler);
